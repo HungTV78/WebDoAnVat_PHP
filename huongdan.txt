@@ -1,0 +1,15 @@
+B1: Tải xampp và chạy để đưa csdl lên phpMyAdmin
+B2: Tải composer về và bỏ trong mục xampp và mở visua lên chạy lệnh 
+"composer require google/apiclient" để đăng nhập bằng google
+B3: Tạo ứng dụng trên Google Developers Console: Trước tiên, bạn cần đăng nhập vào 
+Google Developers Console và tạo một dự án mới. Sau đó, kích hoạt API và dịch vụ Đăng nhập Google (Google Sign-In API).
+Tạo các thông tin xác thực như Client ID và Client Secret.
+Cấu hình OAuth 2.0 Client ID:
+Name: Đặt tên cho Client ID của bạn (ví dụ: "My Web Client").
+Authorized JavaScript origins: Thêm tên miền mà ứng dụng của bạn sẽ sử dụng (ví dụ: http://yourdomain.com).
+Authorized redirect URIs: Thêm URL chuyển hướng sau khi đăng nhập (ví dụ: http://yourdomain.com/google-callback.php).
+Tạo Client ID:
+Nhấp vào "Create".
+Lưu Client ID và Client Secret:
+Sau khi tạo, bạn sẽ thấy Client ID và Client Secret. Lưu thông tin này lại để sử dụng trong mã PHP của bạn.
+B4: Chạy thử thôi :D

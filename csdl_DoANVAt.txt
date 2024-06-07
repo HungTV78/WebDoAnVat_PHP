@@ -1,0 +1,185 @@
+-- Bảng loaisanpham
+CREATE TABLE loaisanpham (
+    maloaisp INT AUTO_INCREMENT PRIMARY KEY,
+    tenloaisp VARCHAR(225) NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng sanpham
+CREATE TABLE sanpham (
+    masp INT AUTO_INCREMENT PRIMARY KEY,
+    tensp VARCHAR(225) NULL,
+    hinh VARCHAR(225) NULL,
+    trangthai VARCHAR(225) NULL,
+    mota VARCHAR(500) NULL,
+    soluong INT NULL,
+    giaban FLOAT NULL,
+    maloaisp INT,
+    FOREIGN KEY (maloaisp) REFERENCES loaisanpham(maloaisp)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng khachhang
+CREATE TABLE khachhang (
+    makh INT AUTO_INCREMENT PRIMARY KEY,
+    tenkh VARCHAR(225) NULL,
+    sdt VARCHAR(225) NULL,
+    diemso INT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng nhacungcap
+CREATE TABLE nhacungcap (
+    mancc INT AUTO_INCREMENT PRIMARY KEY,
+    tenncc VARCHAR(225) NULL,
+    diachi VARCHAR(250) NULL,
+    sdt VARCHAR(225) NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng momo
+CREATE TABLE momo (
+    id_momo INT AUTO_INCREMENT PRIMARY KEY,
+    code_cart VARCHAR(50) NOT NULL,
+    partner_code VARCHAR(50) NOT NULL,
+    order_id INT NOT NULL,
+    amount VARCHAR(50) NOT NULL,
+    order_info VARCHAR(100) NOT NULL,
+    order_type VARCHAR(50) NOT NULL,
+    trans_id INT NOT NULL,
+    pay_type VARCHAR(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng nhomnguoidung
+CREATE TABLE nhomnguoidung (
+    manhom INT AUTO_INCREMENT PRIMARY KEY,
+    tennhom VARCHAR(225) NULL,
+    quyen INT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng nguoidung
+CREATE TABLE nguoidung (
+    mand INT AUTO_INCREMENT PRIMARY KEY,
+    tennd VARCHAR(225) NULL,
+    sdt VARCHAR(225) NULL,
+    diachi VARCHAR(225) NULL,
+    email VARCHAR(225) NULL,
+    ngaysinh DATE NULL,
+    ngayvl DATE NULL,
+    manhom INT,
+    username VARCHAR(225) NOT NULL,
+    matkhau VARCHAR(225) NOT NULL,
+    FOREIGN KEY (manhom) REFERENCES nhomnguoidung(manhom)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng hoadon
+CREATE TABLE hoadon (
+    mahd INT AUTO_INCREMENT PRIMARY KEY,
+    ngaylap DATE DEFAULT NULL,
+    phuongthuc VARCHAR(225) DEFAULT NULL,
+    tongcong FLOAT DEFAULT NULL,
+    mand INT DEFAULT NULL,
+    makh INT DEFAULT NULL,
+    FOREIGN KEY (mand) REFERENCES nguoidung(mand),
+    FOREIGN KEY (makh) REFERENCES khachhang(makh)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng chitiethoadon
+CREATE TABLE chitiethoadon (
+    macthd INT AUTO_INCREMENT PRIMARY KEY,
+    masp INT DEFAULT NULL,
+    soluong INT DEFAULT NULL,
+    dongia FLOAT DEFAULT NULL,
+    thanhtien FLOAT DEFAULT NULL,
+    mahd INT DEFAULT NULL,
+    FOREIGN KEY (masp) REFERENCES sanpham(masp),
+    FOREIGN KEY (mahd) REFERENCES hoadon(mahd) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Bảng giohang
+CREATE TABLE giohang (
+    magiohang INT AUTO_INCREMENT PRIMARY KEY,
+    masp INT DEFAULT NULL,
+    mand INT DEFAULT NULL,
+    soluong INT DEFAULT NULL,
+    FOREIGN KEY (masp) REFERENCES sanpham(masp),
+    FOREIGN KEY (mand) REFERENCES nguoidung(mand)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insert data into loaisanpham
+INSERT INTO loaisanpham (tenloaisp) VALUES
+('Khô'), ('Cơm Cháy'), ('Bánh Tráng'), ('Bánh'), ('Kẹo'), ('Thức Uống'), ('Trà'), ('Hạt Dinh Dưỡng'), ('Bánh/Mứt Tết');
+
+-- Insert data into sanpham
+INSERT INTO sanpham (tensp, hinh, trangthai, mota, soluong, giaban, maloaisp) VALUES
+('Khô cá chẽm', 'anh1', NULL, NULL, 100, 100000, 1),
+('Khô Gà', 'khoga.jpg', 'Còn hàng', 'Khô Gà bếp làm 6 năm nay khách nào ăn cũng biết từng cọng thịt gà thấm vị săn ngon chứ không bị bở đâu nhé.', 5, 35000, 1),
+('Khô Heo', 'khoheo.jpg', 'Còn hàng', 'Khô Heo bếp làm 6 năm nay khách nào ăn cũng biết từng cọng thịt gà thấm vị săn ngon chứ không bị bở đâu nhé.', 5, 45000, 1),
+('Khô Bò', 'khobo.jpg', 'Còn hàng', 'Khô Bò bếp làm 6 năm nay khách nào ăn cũng biết từng cọng thịt gà thấm vị săn ngon chứ không bị bở đâu nhé.', 5, 55000, 1),
+('Cơm Cháy Chà Bông', 'comchaychabong.jpg', 'Còn hàng', 'Cơm cháy chà bông size mini theo yêu cầu của khách yêu', 5, 150000, 2),
+('Cơm Cháy Rong Biển', 'comchayrongbien.jpg', 'Còn hàng', 'Cơm cháy rong biển size mini theo yêu cầu của khách yêu', 5, 160000, 2),
+('Bánh Tráng Bơ Tỏi', 'banhtrangbotoi.jpg', 'Còn hàng', 'Bánh tráng bơ tỏi tự làm theo đặc trưng của miền Tây.', 5, 15000, 3),
+('Bánh Tráng Cuộn', 'banhtrangcuon.jpg', 'Còn hàng', 'Bánh tráng cuộn thịt heo nầu. Món ăn dân dã đậm chất vùng quê.', 5, 20000, 3),
+('Bánh Tai Heo', 'banhtaiheo.jpg', 'Còn hàng', 'Bánh tai heo là món ăn dân dã đậm chất quê nhà được nhiều người yêu thích.', 5, 10000, 4),
+('Bánh Ống Mè', 'ongme.jpg', 'Còn hàng', 'Bánh ống mè là món ăn đặc trưng của người Campuchia, qua thời gian đã trở thành món ăn quen thuộc của người dân Việt Nam.', 5, 12000, 4),
+('Kẹo Bơ Sữa', 'keobosa.jpg', 'Còn hàng', 'Kẹo bơ sữa độc quyền của cửa hàng bánh kẹo Vân Anh.', 5, 20000, 5),
+('Kẹo Đậu Phộng', 'keodauphong.jpg', 'Còn hàng', 'Kẹo đậu phộng lá me nội địa, hương vị rất đặc trưng.', 5, 15000, 5),
+('Chanh Muối Đường Phèn', 'chanhmuoiduongphen.jpg', 'Còn hàng', 'Chanh muối đường phèn là món khai vị không thể thiếu trong mâm cơm ngày Tết.', 5, 20000, 6),
+('Đá Me', 'dame.jpg', 'Còn hàng', 'Đá me làm từ nguyên liệu tự nhiên, thơm ngon và mát lành.', 5, 15000, 6),
+('Trà Sữa', 'trasua.jpg', 'Còn hàng', 'Trà sữa được nhiều người ưa chuộng bởi vị ngọt thanh mát và hương thơm đặc trưng của trà sữa.', 5, 20000, 7),
+('Hạt Ngũ Cốc', 'hatngucoc.jpg', 'Còn hàng', 'Hỗn hợp hạt ngũ cốc, chứa nhiều dưỡng chất tốt cho sức khỏe', 5, 30000, 8),
+('Khô Mực', 'khomuc.jpg', 'Còn hàng', 'Khô Mực hương vị đậm đà, thơm ngon.', 3, 60000, 1),
+('Khô Cá Dứa', 'khocadua.jpg', 'Còn hàng', 'Khô Cá Dứa tươi ngon, giàu dinh dưỡng.', 3, 65000, 1),
+('Khô Cá Thiều', 'khocathieu.jpg', 'Còn hàng', 'Khô Cá Thiều tươi ngon, giàu dinh dưỡng.', 3, 70000, 1),
+('Cơm Cháy Mắm Tỏi', 'comchaymamtoi.jpg', 'Còn hàng', 'Cơm cháy mắm tỏi thơm ngon, hấp dẫn.', 3, 80000, 2),
+('Cơm Cháy Tròn Mini', 'comchaytronmini.jpg', 'Còn hàng', 'Cơm cháy tròn mini nhỏ gọn, tiện lợi.', 3, 75000, 2),
+('Gạo Lức Sấy', 'gaolucsay.jpg', 'Còn hàng', 'Gạo Lức Sấy chất lượng cao, thơm ngon.', 3, 90000, 2),
+('Bánh Tráng Cốt Dừa', 'banhtrangcotdua.jpg', 'Còn hàng', 'Bánh tráng cốt dừa thơm ngon, độc đáo.', 3, 20000, 3),
+('Bánh Tráng Dẻo Phơi Sương', 'banhtrangdeophoisuong.jpg', 'Còn hàng', 'Bánh tráng dẻo phơi sương thơm ngon, mềm mịn.', 3, 25000, 3),
+('Bánh Tráng Nướng Mắm Ruốt', 'banhtrangnuongmamruot.jpg', 'Còn hàng', 'Bánh tráng nướng mắm ruốt đậm đà, hấp dẫn.', 3, 30000, 3),
+('Bánh Bông Lan Sốt Bơ', 'banhbonglansotbo.jpg', 'Còn hàng', 'Bánh bông lan sốt bơ thơm ngon, mềm mịn.', 3, 35000, 4),
+('Bánh Bò Xốp', 'banhxop.jpg', 'Còn hàng', 'Bánh bò xốp thơm ngon, mềm mịn.', 3, 40000, 4),
+('Kẹo Socola', 'keosocola.jpg', 'Còn hàng', 'Kẹo socola hảo hạng, ngọt ngào.', 3, 25000, 5),
+('Kẹo Dẻo', 'keodeo.jpg', 'Còn hàng', 'Kẹo dẻo ngon miệng, thích hợp cho trẻ em.', 3, 20000, 5),
+('Kẹo Ngậm', 'keongam.jpg', 'Còn hàng', 'Kẹo ngậm thơm ngon, giải khát tuyệt vời.', 3, 15000, 5),
+('Soda Chanh', 'sodachanh.jpg', 'Còn hàng', 'Soda Chanh mát lạnh, sảng khoái.', 3, 12000, 6),
+('Coca', 'coca.jpg', 'Còn hàng', 'Coca ngon tuyệt vời, thưởng thức cùng bạn bè.', 3, 10000, 6),
+('Pepsi', 'pepsi.jpg', 'Còn hàng', 'Pepsi đầy sự lựa chọn, thỏa mãn cơn khát.', 3, 10000, 6);
+
+
+-- Insert data into khachhang
+INSERT INTO khachhang (tenkh, sdt, diemso) VALUES
+('Trần Văn A', '090912345', NULL),
+('Trần Văn B', '090912346', NULL),
+('Trần Văn C', '090912347', NULL);
+
+-- Insert data into nhacungcap
+INSERT INTO nhacungcap (tenncc, diachi, sdt) VALUES
+('Công Ty A', '345 Lê Trọng Tấn', '090912345'),
+('Công Ty B', '678 Lê Trọng Tấn', '090912346');
+
+-- Insert data into nhomnguoidung
+INSERT INTO nhomnguoidung (tennhom, quyen) VALUES
+('Quản Lý', 1),
+('Nhân Viên', 2);
+
+-- Insert data into nguoidung
+INSERT INTO nguoidung (tennd, sdt, diachi, email, ngaysinh, ngayvl, manhom, username, matkhau) VALUES
+('Shop Ăn Vặt', '0909090909', 'Long An', 'shopanvat@gmail.com', '2003-05-22', NULL, 1, 'admin123', '$2y$10$H/B9SnKgFL6xzrBaMj73Jeex4TOQRzY6v7/4aohLKfUVcUYvSZZ6m'),
+('Trần Văn Tèo', '0123456789', 'TPHCM', '123@gmail.com', '1980-05-25', '2024-01-01', 1, 'admin', '123'),
+('Nguyễn Văn A', '090912345', '123 Lê Trọng Tấn', 'nguyenvana@gmail.com', '1990-01-01', '2024-01-02', 1, 'username', 'password');
+
+-- Insert data into hoadon
+INSERT INTO hoadon (ngaylap, phuongthuc, tongcong, mand, makh) VALUES
+('2024-05-18', 'Tiền Mặt', 70000, 1, 1),
+('2024-05-18', 'Tiền Mặt', 310000, 1, 2),
+('2024-05-18', 'Chuyển Khoản', 45000, 1, 3);
+
+-- Insert data into chitiethoadon
+INSERT INTO chitiethoadon (masp, soluong, dongia, thanhtien, mahd) VALUES
+(1, 2, 35000, 70000, 1),
+(4, 1, 150000, 150000, 2),
+(5, 1, 160000, 160000, 2),
+(6, 1, 15000, 15000, 3),
+(7, 1, 20000, 20000, 3);
+
+
+ALTER TABLE hoadon ADD COLUMN tinhtrang VARCHAR(50);
+ALTER TABLE khachhang ADD COLUMN mand INT;
+
