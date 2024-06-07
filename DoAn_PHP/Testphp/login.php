@@ -102,9 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <nav class="main-nav">
         <ul class="menu">
             <li><a href="index.php">Trang chủ</a></li>
-            <li><a href="#">Khuyến mãi</a></li>
+            <li><a href="khuyenmai.php">Khuyến mãi</a></li>
             <li><a href="#">Liên hệ</a></li>
-            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="introduce.php">Giới thiệu</a></li>
             <li><a href="#">Hỗ trợ</a></li>
             <li class="user-links">
                 <?php
